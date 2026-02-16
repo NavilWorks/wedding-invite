@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anagha & Aibel — 25 April 2026</title>
+  <meta name="description" content="Anagha & Aibel invite you to celebrate their wedding on Saturday, 25 April 2026 at Rhythm Event of Galleria, Pantheeramkavu." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: rgba(184,164,224,0.28); }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: #F4F1FB; }
+    ::-webkit-scrollbar-thumb { background: #B8A4E0; border-radius: 2px; }
+
+    /* ─────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --bg:         #F4F1FB;
+      --white:      #FDFCFF;
+      --lav:        #B8A4E0;
+      --lav-mid:    #9278C8;
+      --lav-deep:   #5E45A0;
+      --lav-line:   rgba(184,164,224,0.38);
+      --ink:        #28223A;
+      --ink-mid:    #6A6080;
+      --ink-soft:   #A098BC;
+    }
+
+    /* ─────────────────────────────────────────
+       BASE
+    ───────────────────────────────────────── */
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    @media (pointer: fine) {
+      body { cursor: none; }
+    }
+    @media (pointer: coarse) {
+      #cursor-dot,
+      #cursor-glow { display: none; }
+    }
+
+    /* ─────────────────────────────────────────
+       CUSTOM CURSOR
+    ───────────────────────────────────────── */
+    #cursor-dot {
+      position: fixed;
+      width: 6px; height: 6px;
+      background: var(--lav-mid);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, opacity 0.3s;
+    }
+    #cursor-glow {
+      position: fixed;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(184,164,224,0.13) 0%, transparent 65%);
+      transition: transform 0.55s cubic-bezier(0.18,0.89,0.32,1), opacity 0.4s;
+    }
+    /* only show cursor glow in hero */
+    body:not(.in-hero) #cursor-glow { opacity: 0; }
+
+    /* ─────────────────────────────────────────
+       PRELOADER
+    ───────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--white);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1.8rem;
+      z-index: 9999;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+    #loader.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .loader-mono {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.55em;
+      color: var(--lav-deep);
+      animation: breathe 2.2s ease-in-out infinite;
+    }
+    .loader-bar-wrap {
+      width: 120px; height: 1px;
+      background: var(--lav-line);
+      overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--lav-mid), transparent);
+      animation: loadBar 2.4s ease-in-out forwards;
+    }
+    @keyframes loadBar { from { width: 0; } to { width: 100%; } }
+    @keyframes breathe { 0%,100%{opacity:.15} 50%{opacity:1} }
+
+    /* ─────────────────────────────────────────
+       SHARED UTILITIES
+    ───────────────────────────────────────── */
+    .eyebrow {
+      display: block;
+      font-size: 0.58rem; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--lav-mid);
+      font-weight: 400; margin-bottom: 0.9rem;
+    }
+    .s-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.7rem, 4.5vw, 2.8rem);
+      font-weight: 300; letter-spacing: 0.1em; color: var(--ink);
+    }
+    .gem-rule {
+      display: flex; align-items: center; gap: 0.7rem;
+      width: min(180px, 70%); margin: 1.1rem auto 0;
+    }
+    .gem-rule::before, .gem-rule::after {
+      content: ''; flex: 1; height: 1px;
+    }
+    .gem-rule::before { background: linear-gradient(90deg, transparent, var(--lav)); }
+    .gem-rule::after  { background: linear-gradient(90deg, var(--lav), transparent); }
+    .gem-rule span {
+      width: 4px; height: 4px;
+      background: var(--lav); transform: rotate(45deg);
+    }
+
+    /* scroll reveal */
+    .appear {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.9s cubic-bezier(0.22,1,0.36,1);
+    }
+    .appear.in { opacity: 1; transform: none; }
+    .d1{transition-delay:.1s} .d2{transition-delay:.22s}
+    .d3{transition-delay:.35s} .d4{transition-delay:.5s}
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: clamp(4rem,10vw,7rem) clamp(1.5rem,6vw,5rem);
+      position: relative; overflow: hidden;
+    }
+
+    /* animated gradient mesh background */
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 35%, rgba(184,164,224,0.28) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 70%, rgba(146,120,200,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 10%, rgba(220,210,245,0.22) 0%, transparent 60%),
+        var(--bg);
+      animation: gradShift 12s ease-in-out infinite alternate;
+    }
+    @keyframes gradShift {
+      0%   { filter: hue-rotate(0deg) brightness(1); }
+      33%  { filter: hue-rotate(8deg) brightness(1.02); }
+      66%  { filter: hue-rotate(-6deg) brightness(0.99); }
+      100% { filter: hue-rotate(4deg) brightness(1.01); }
+    }
+
+    /* grain overlay */
+    .hero-grain {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23g)' opacity='0.025'/%3E%3C/svg%3E");
+    }
+
+    /* large faint initial watermark */
+    .hero-watermark {
+      position: absolute; inset: 0; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; overflow: hidden;
+    }
+    .hero-watermark span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18rem, 40vw, 36rem);
+      font-weight: 300; font-style: italic;
+      color: rgba(184,164,224,0.05);
+      line-height: 1; user-select: none;
+      letter-spacing: -0.05em;
+      white-space: nowrap;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      max-width: 720px; width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* hero stagger animations */
+    .hs0{opacity:0;animation:heroUp 1.1s 0.25s forwards}
+    .hs1{opacity:0;animation:heroUp 1.1s 0.5s forwards}
+    .hs2{opacity:0;animation:heroUp 1.1s 0.85s forwards}  /* amp: true micro delay */
+    .hs3{opacity:0;animation:heroUp 1.1s 1.1s forwards}
+    .hs4{opacity:0;animation:heroUp 1s 1.3s forwards}
+    .hs5{opacity:0;animation:heroUp 1s 1.5s forwards}
+    .hs6{opacity:0;animation:heroUp 1s 1.7s forwards}
+    @keyframes heroUp {
+      from{opacity:0;transform:translateY(22px)}
+      to  {opacity:1;transform:translateY(0)}
+    }
+
+    .hero-label {
+      font-size: 0.6rem; letter-spacing: 0.44em;
+      text-transform: uppercase; color: var(--lav-mid); font-weight: 400;
+    }
+
+    .hero-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 14vw, 9.5rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      color: var(--ink);
+      margin-top: 1.4rem;
+    }
+
+    /* dramatic: subtle text shadow lift */
+    .hero-names .name-line {
+      display: block;
+      text-shadow: 0 2px 40px rgba(94,69,160,0.12);
+      transition: letter-spacing 0.8s ease;
+    }
+
+    .hero-amp {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.35em;
+      letter-spacing: 0.7em;
+      color: var(--lav-mid);
+      margin: 0.35em 0;
+    }
+
+    /* divider */
+    .h-div {
+      display: flex; align-items: center; gap: 0.9rem;
+      width: min(260px, 80%); margin-top: 2.4rem;
+    }
+    .h-div-line {
+      flex: 1; height: 1px;
+      transition: width 0.6s;
+    }
+    .h-div-line:first-child { background: linear-gradient(90deg, transparent, var(--lav)); }
+    .h-div-line:last-child  { background: linear-gradient(90deg, var(--lav), transparent); }
+    .h-gem {
+      width: 6px; height: 6px;
+      background: var(--lav); transform: rotate(45deg);
+    }
+
+    .hero-sub {
+      font-size: clamp(0.78rem, 2vw, 0.92rem);
+      letter-spacing: 0.12em; color: var(--ink-mid);
+      line-height: 2; margin-top: 1.8rem; max-width: 400px;
+    }
+
+    .hero-meta {
+      display: flex; align-items: center;
+      gap: 1.4rem; margin-top: 2.6rem;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .m-item { text-align: center; }
+    .m-lbl {
+      font-size: 0.5rem; letter-spacing: 0.32em;
+      text-transform: uppercase; color: var(--lav-mid); font-weight: 400;
+    }
+    .m-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.6vw, 1.3rem);
+      font-weight: 400; color: var(--ink); letter-spacing: 0.07em; margin-top: 0.15rem;
+    }
+    .m-sep {
+      width: 1px; height: 2.6rem;
+      background: var(--lav-line);
+    }
+    @media(max-width:380px){.m-sep{display:none}}
+
+    .hero-venue-line {
+      margin-top: 1.6rem;
+      font-size: 0.7rem; letter-spacing: 0.2em;
+      color: var(--ink-soft); text-transform: uppercase;
+    }
+
+    /* scroll cue */
+    .scroll-cue {
+      position: absolute; bottom: 2rem; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 0.38rem;
+      opacity: 0; animation: heroUp 0.9s 2s forwards;
+    }
+    .scroll-cue span {
+      font-size: 0.5rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--ink-soft);
+    }
+    .scroll-tick {
+      width: 1px; height: 3rem;
+      background: linear-gradient(to bottom, var(--lav), transparent);
+      animation: tickAnim 2.5s ease-in-out infinite;
+    }
+    @keyframes tickAnim{0%,100%{opacity:.25;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.07)}}
+
+    /* ─────────────────────────────────────────
+       DETAILS
+    ───────────────────────────────────────── */
+    #details {
+      background: var(--white);
+      padding: clamp(4rem,9vw,7rem) clamp(1.5rem,5vw,4rem);
+      text-align: center;
+    }
+
+    /* NO outer border — cells separated by inner dividers only */
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(175px,100%), 1fr));
+      max-width: 820px; margin: 2.8rem auto 0;
+      /* no border: removed */
+    }
+    .d-cell {
+      padding: 2.6rem 1.4rem;
+      position: relative;
+      transition: background 0.35s;
+    }
+    /* Elegant inner separator — not a box */
+    .d-cell + .d-cell::before {
+      content: '';
+      position: absolute; left: 0; top: 20%; bottom: 20%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--lav-line), transparent);
+    }
+    @media(max-width:600px){
+      .d-cell + .d-cell::before { top:0; bottom:auto; left:20%; right:20%; width:auto; height:1px;
+        background: linear-gradient(to right, transparent, var(--lav-line), transparent);
+      }
+    }
+    .d-cell:hover { background: rgba(184,164,224,0.06); }
+    .d-lozenge {
+      display: inline-block; width: 5px; height: 5px;
+      background: var(--lav); transform: rotate(45deg); margin-bottom: 1rem;
+    }
+    .d-label {
+      font-size: 0.57rem; letter-spacing: 0.32em;
+      text-transform: uppercase; color: var(--lav-mid); font-weight: 400; margin-bottom: 0.4rem;
+    }
+    .d-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem,2.8vw,1.4rem); font-weight: 400;
+      line-height: 1.3; color: var(--ink);
+    }
+    .d-sub { font-size: 0.7rem; color: var(--ink-mid); margin-top: 0.2rem; letter-spacing: 0.06em; }
+
+    /* ─────────────────────────────────────────
+       COUNTDOWN
+    ───────────────────────────────────────── */
+    #countdown {
+      background: var(--bg);
+      padding: clamp(4rem,9vw,7rem) clamp(1.5rem,5vw,4rem);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    /* ambient shimmer behind numbers */
+    #countdown::before {
+      content: '';
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      width: clamp(300px, 70vw, 600px);
+      height: clamp(150px, 35vw, 300px);
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(184,164,224,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cd-row {
+      display: flex; align-items: flex-start;
+      justify-content: center; gap: clamp(0.8rem,3.5vw,3rem);
+      flex-wrap: wrap; margin-top: 2.6rem; position: relative; z-index: 1;
+    }
+    .cd-unit { text-align: center; min-width: 68px; }
+    .cd-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem,9vw,6rem); font-weight: 300; line-height: 1;
+      color: var(--ink); position: relative;
+    }
+    .cd-num::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 8%; right: 8%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--lav), transparent);
+    }
+    .cd-lbl {
+      font-size: 0.55rem; letter-spacing: 0.32em;
+      text-transform: uppercase; color: var(--lav-mid); margin-top: 0.75rem; font-weight: 400;
+    }
+    .cd-sep {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem,4vw,2.8rem);
+      color: var(--lav-line); padding-top: 0.1em; font-weight: 300;
+    }
+
+    /* ─────────────────────────────────────────
+       VENUE / MAP
+    ───────────────────────────────────────── */
+    #venue {
+      background: var(--white);
+      padding: clamp(4rem,9vw,7rem) clamp(1.5rem,5vw,4rem);
+      text-align: center;
+    }
+
+    .venue-sub {
+      font-size: 0.8rem; color: var(--ink-mid);
+      letter-spacing: 0.08em; margin-top: 0.9rem;
+    }
+
+    /* map with elevation on hover */
+    .map-wrap {
+      max-width: 720px; margin: 2.4rem auto 0;
+      position: relative;
+    }
+    .map-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1px solid var(--lav-line);
+      pointer-events: none; z-index: 2;
+      transition: box-shadow 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .map-wrap:hover::before {
+      box-shadow:
+        0 8px 40px rgba(94,69,160,0.1),
+        0 2px 12px rgba(184,164,224,0.18);
+    }
+    .map-wrap iframe {
+      width: 100%; height: 360px; display: block; border: none;
+      filter: grayscale(15%) saturate(0.88) contrast(1.02);
+      transition: filter 0.4s;
+    }
+    .map-wrap:hover iframe { filter: grayscale(0%) saturate(1) contrast(1.02); }
+
+    .btn-row {
+      display: flex; gap: 0.75rem;
+      justify-content: center; flex-wrap: wrap; margin-top: 1.6rem;
+    }
+    .btn {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.63rem; letter-spacing: 0.22em; text-transform: uppercase;
+      font-weight: 300; padding: 0.72rem 1.7rem;
+      border: 1px solid var(--lav); background: transparent; color: var(--ink);
+      cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: background 0.28s, color 0.28s, border-color 0.28s, box-shadow 0.28s;
+      -webkit-appearance: none;
+    }
+    .btn:hover {
+      background: var(--lav); color: var(--white); border-color: var(--lav);
+      box-shadow: 0 4px 20px rgba(184,164,224,0.3);
+    }
+    .btn-solid { background: var(--ink); color: var(--white); border-color: var(--ink); }
+    .btn-solid:hover { background: var(--lav-deep); border-color: var(--lav-deep); box-shadow: 0 4px 20px rgba(94,69,160,0.3); }
+    #calMenu { display:none; justify-content:center; flex-wrap:wrap; gap:0.55rem; margin-top:0.8rem; }
+    #calMenu.open { display:flex; }
+
+    /* ─────────────────────────────────────────
+       RSVP
+    ───────────────────────────────────────── */
+    #rsvp {
+      background: var(--bg);
+      padding: clamp(4rem,9vw,7rem) clamp(1.5rem,5vw,4rem);
+      text-align: center;
+    }
+    .rsvp-form {
+      max-width: 500px; margin: 2.6rem auto 0;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media(max-width:460px){.f-row{grid-template-columns:1fr}}
+    .f-field { display:flex; flex-direction:column; gap:0.4rem; text-align:left; }
+    .f-field label {
+      font-size: 0.56rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--lav-mid); font-weight: 400;
+    }
+    .f-field input, .f-field select {
+      background: transparent; border: none;
+      border-bottom: 1px solid var(--lav-line);
+      padding: 0.58rem 0;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem; font-weight: 300; color: var(--ink);
+      outline: none; -webkit-appearance: none; appearance: none; width: 100%;
+      transition: border-color 0.25s;
+    }
+    .f-field input:focus, .f-field select:focus { border-color: var(--lav-mid); }
+    .f-field input::placeholder { color: var(--ink-soft); }
+    .rsvp-btns { display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center; margin-top:0.4rem; }
+
+    .rsvp-confirm {
+      display: none; max-width: 420px; margin: 2rem auto 0;
+      padding: 2.8rem 2rem; text-align: center;
+      border: 1px solid var(--lav-line);
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(8px);
+    }
+    .rsvp-confirm.show { display: block; }
+    .confirm-gem { font-size: 1.3rem; color: var(--lav); margin-bottom: 1rem; }
+    .confirm-msg {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.05rem,3vw,1.35rem); font-weight: 300; color: var(--ink); line-height: 1.7;
+    }
+    .confirm-date {
+      font-size: 0.65rem; letter-spacing: 0.22em; color: var(--ink-mid);
+      margin-top: 1.1rem; text-transform: uppercase;
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    footer::before {
+      content: '';
+      position: absolute; left:50%; top:0; transform:translateX(-50%);
+      width:400px; height:2px;
+      background: linear-gradient(90deg, transparent, var(--lav), transparent);
+    }
+    .ft-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem,4.5vw,2.4rem); font-weight: 300;
+      letter-spacing: 0.18em; color: var(--lav);
+      margin-bottom: 0.4rem;
+    }
+    .ft-date {
+      font-size: 0.6rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: rgba(255,255,255,0.22);
+    }
+    .ft-actions {
+      display: flex; gap: 0.65rem; justify-content: center; flex-wrap: wrap; margin-top: 1.6rem;
+    }
+    .ft-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: transparent;
+      border: 1px solid rgba(184,164,224,0.22);
+      color: rgba(184,164,224,0.65);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+      font-weight: 300; padding: 0.5rem 1.2rem; cursor: pointer;
+      transition: background 0.28s, border-color 0.28s, color 0.28s;
+    }
+    .ft-btn:hover { background: rgba(184,164,224,0.1); border-color: rgba(184,164,224,0.5); color: var(--lav); }
+    .ft-copy {
+      font-size: 0.55rem; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.12); margin-top: 2rem;
+    }
+
+    /* ─────────────────────────────────────────
+       MUSIC INDICATOR
+    ───────────────────────────────────────── */
+    #musicBars {
+      display: inline-flex; gap: 3px; align-items: flex-end;
+      height: 14px; margin-left: 0.4rem; vertical-align: middle;
+    }
+    #musicBars span {
+      display: block; width: 3px; border-radius: 1px;
+      background: rgba(184,164,224,0.65);
+      transform-origin: bottom;
+    }
+    #musicBars.playing span:nth-child(1){ animation: bar 0.9s 0.0s ease-in-out infinite alternate; }
+    #musicBars.playing span:nth-child(2){ animation: bar 0.9s 0.2s ease-in-out infinite alternate; }
+    #musicBars.playing span:nth-child(3){ animation: bar 0.9s 0.4s ease-in-out infinite alternate; }
+    #musicBars.playing span:nth-child(4){ animation: bar 0.9s 0.1s ease-in-out infinite alternate; }
+    #musicBars:not(.playing) span { height: 3px !important; }
+    @keyframes bar {
+      from { height: 3px; } to { height: 14px; }
+    }
+
+    /* ─────────────────────────────────────────
+       PRINT
+    ───────────────────────────────────────── */
+    @media print {
+      #loader, #cursor-dot, #cursor-glow, .scroll-cue,
+      .btn-row, .rsvp-btns, footer, #countdown { display:none !important; }
+      body { background: white; cursor: auto; }
+      section { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-glow"></div>
+
+<!-- PRELOADER -->
+<div id="loader">
+  <div class="loader-mono">A &amp; A</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-watermark" aria-hidden="true"><span>&amp;</span></div>
+
+  <div class="hero-inner">
+    <p class="hero-label hs0">Wedding Invitation</p>
+
+    <h1 class="hero-names">
+      <span class="name-line hs1">Anagha</span>
+      <span class="hero-amp hs2">&amp;</span>
+      <span class="name-line hs3">Aibel</span>
+    </h1>
+
+    <div class="h-div hs4">
+      <span class="h-div-line"></span>
+      <span class="h-gem"></span>
+      <span class="h-div-line"></span>
+    </div>
+
+    <p class="hero-sub hs5">
+      Together with their families<br>
+      invite you to celebrate their wedding
+    </p>
+
+    <div class="hero-meta hs6">
+      <div class="m-item">
+        <div class="m-lbl">Date</div>
+        <div class="m-val">25 April 2026</div>
+      </div>
+      <div class="m-sep" aria-hidden="true"></div>
+      <div class="m-item">
+        <div class="m-lbl">Day</div>
+        <div class="m-val">Saturday</div>
+      </div>
+      <div class="m-sep" aria-hidden="true"></div>
+      <div class="m-item">
+        <div class="m-lbl">Time</div>
+        <div class="m-val">5:00 – 9:00 PM</div>
+      </div>
+    </div>
+
+    <p class="hero-venue-line hs6">
+      Rhythm Event of Galleria · Pantheeramkavu
+    </p>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-tick"></div>
+  </div>
+</section>
+
+<!-- ══════════════ DETAILS ══════════════ -->
+<section id="details">
+  <span class="eyebrow appear">The Occasion</span>
+  <h2 class="s-title appear d1">Celebration Details</h2>
+  <div class="gem-rule appear d2"><span></span></div>
+
+  <div class="details-grid appear d2">
+    <div class="d-cell">
+      <span class="d-lozenge"></span>
+      <div class="d-label">Date</div>
+      <div class="d-val">25 April 2026</div>
+      <div class="d-sub">Saturday</div>
+    </div>
+    <div class="d-cell">
+      <span class="d-lozenge"></span>
+      <div class="d-label">Time</div>
+      <div class="d-val">5:00 PM</div>
+      <div class="d-sub">Until 9:00 PM</div>
+    </div>
+    <div class="d-cell">
+      <span class="d-lozenge"></span>
+      <div class="d-label">Venue</div>
+      <div class="d-val">Rhythm Event<br>of Galleria</div>
+    </div>
+    <div class="d-cell">
+      <span class="d-lozenge"></span>
+      <div class="d-label">Location</div>
+      <div class="d-val">Pantheeramkavu</div>
+      <div class="d-sub">Poothurmadam, Kerala</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ COUNTDOWN ══════════════ -->
+<section id="countdown">
+  <span class="eyebrow appear">Time Remaining</span>
+  <h2 class="s-title appear d1">Days Until We Celebrate</h2>
+  <div class="gem-rule appear d2"><span></span></div>
+
+  <div class="cd-row appear d3">
+    <div class="cd-unit">
+      <div class="cd-num" id="cdD">00</div>
+      <div class="cd-lbl">Days</div>
+    </div>
+    <div class="cd-sep" aria-hidden="true">·</div>
+    <div class="cd-unit">
+      <div class="cd-num" id="cdH">00</div>
+      <div class="cd-lbl">Hours</div>
+    </div>
+    <div class="cd-sep" aria-hidden="true">·</div>
+    <div class="cd-unit">
+      <div class="cd-num" id="cdM">00</div>
+      <div class="cd-lbl">Minutes</div>
+    </div>
+    <div class="cd-sep" aria-hidden="true">·</div>
+    <div class="cd-unit">
+      <div class="cd-num" id="cdS">00</div>
+      <div class="cd-lbl">Seconds</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ VENUE ══════════════ -->
+<section id="venue">
+  <span class="eyebrow appear">Find Us</span>
+  <h2 class="s-title appear d1">The Venue</h2>
+  <div class="gem-rule appear d2"><span></span></div>
+  <p class="venue-sub appear d2">
+    Rhythm Event of Galleria · Pantheeramkavu, Poothurmadam, Kerala
+  </p>
+
+  <div class="map-wrap appear d3">
+    <iframe
+      title="Venue location map"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917!2d75.8!3d11.25!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sPantheeramkavu%2C+Poothurmadam%2C+Kerala!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+      loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="btn-row appear d3">
+    <a href="https://www.google.com/maps/search/Rhythm+Event+of+Galleria+Pantheeramkavu+Poothurmadam"
+       target="_blank" rel="noopener noreferrer" class="btn">
+      ↗ Open in Maps
+    </a>
+    <button class="btn btn-solid" id="calBtn">⊕ Add to Calendar</button>
+  </div>
+
+  <div id="calMenu">
+    <a href="#" id="gcalLink" target="_blank" rel="noopener noreferrer"
+       class="btn" style="font-size:0.58rem;">Google Calendar</a>
+    <a href="#" id="icalLink" download="anagha-aibel-wedding.ics"
+       class="btn" style="font-size:0.58rem;">Download iCal</a>
+  </div>
+</section>
+
+<!-- ══════════════ RSVP ══════════════ -->
+<section id="rsvp">
+  <span class="eyebrow appear">Your Presence</span>
+  <h2 class="s-title appear d1">Will You Join Us?</h2>
+  <div class="gem-rule appear d2"><span></span></div>
+
+  <div id="rsvpWrap" class="appear d2">
+    <form class="rsvp-form" id="rsvpForm" novalidate>
+      <div class="f-row">
+        <div class="f-field">
+          <label for="fn">Your Name</label>
+          <input type="text" id="fn" placeholder="Full name" required autocomplete="name" />
+        </div>
+        <div class="f-field">
+          <label for="fg">No. of Guests</label>
+          <input type="number" id="fg" min="1" max="10" placeholder="1" required />
+        </div>
+      </div>
+      <div class="f-field">
+        <label for="fa">Attendance</label>
+        <select id="fa" required>
+          <option value="" disabled selected>Please select</option>
+          <option value="yes">Joyfully Accept</option>
+          <option value="no">Regretfully Decline</option>
+        </select>
+      </div>
+      <div class="rsvp-btns">
+        <button type="submit" class="btn btn-solid">Confirm Attendance</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="rsvp-confirm" id="rsvpConfirm" role="status" aria-live="polite">
+    <div class="confirm-gem" aria-hidden="true">◇</div>
+    <p class="confirm-msg" id="confirmMsg">Thank you — we look forward to celebrating with you.</p>
+    <p class="confirm-date">Saturday · 25 April 2026 · 5:00 PM</p>
+  </div>
+</section>
+
+
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <p class="ft-names">Anagha &amp; Aibel</p>
+  <p class="ft-date">With Love · 25 April 2026</p>
+  <div class="ft-actions">
+    <button class="ft-btn" id="musicBtn" aria-label="Toggle ambient music">
+      <span id="musicLabel">♩ Music</span>
+      <span id="musicBars">
+        <span style="height:3px"></span>
+        <span style="height:3px"></span>
+        <span style="height:3px"></span>
+        <span style="height:3px"></span>
+      </span>
+    </button>
+    <button class="ft-btn" onclick="window.print()">⊡ Print</button>
+  </div>
+  <p class="ft-copy">Crafted with love · April 2026</p>
+</footer>
+
+<!-- ══════════════ SCRIPT ══════════════ -->
+<script>
+(function () {
+
+  /* ── Preloader — give it a proper 2.4s breath ── */
+  window.addEventListener('load', function () {
+    document.getElementById('loader').classList.add('gone');
+  });
+
+  /* ── Custom Cursor (pointer devices only) ── */
+  if (window.matchMedia('(pointer: fine)').matches) {
+    var dot  = document.getElementById('cursor-dot');
+    var glow = document.getElementById('cursor-glow');
+    var hero = document.getElementById('hero');
+    var mx = 0, my = 0, gx = 0, gy = 0;
+
+    document.addEventListener('mousemove', function (e) {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
+      var r = hero.getBoundingClientRect();
+      if (e.clientY >= r.top && e.clientY <= r.bottom) {
+        document.body.classList.add('in-hero');
+      } else {
+        document.body.classList.remove('in-hero');
+      }
+    });
+
+    (function animGlow() {
+      gx += (mx - gx) * 0.06;
+      gy += (my - gy) * 0.06;
+      glow.style.left = gx + 'px';
+      glow.style.top  = gy + 'px';
+      requestAnimationFrame(animGlow);
+    })();
+  }
+
+  /* ── Scroll Reveal ── */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.appear').forEach(function (el) { io.observe(el); });
+
+  /* ── Countdown — 25 Apr 2026 17:00 IST ── */
+  var target = new Date('2026-04-25T17:00:00+05:30').getTime();
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function tick() {
+    var diff = target - Date.now();
+    if (diff <= 0) return;
+    var s = Math.floor(diff / 1000);
+    document.getElementById('cdD').textContent = pad(Math.floor(s / 86400));
+    document.getElementById('cdH').textContent = pad(Math.floor((s % 86400) / 3600));
+    document.getElementById('cdM').textContent = pad(Math.floor((s % 3600) / 60));
+    document.getElementById('cdS').textContent = pad(s % 60);
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ── Calendar ── */
+  document.getElementById('calBtn').addEventListener('click', function () {
+    var m = document.getElementById('calMenu');
+    m.classList.toggle('open');
+    if (m.classList.contains('open')) {
+      var t = encodeURIComponent('Anagha & Aibel Wedding');
+      var l = encodeURIComponent('Rhythm Event of Galleria, Pantheeramkavu, Poothurmadam');
+      document.getElementById('gcalLink').href =
+        'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + t +
+        '&dates=20260425T170000/20260425T210000&location=' + l;
+      var ics = [
+        'BEGIN:VCALENDAR', 'VERSION:2.0',
+        'BEGIN:VEVENT',
+        'DTSTART;TZID=Asia/Kolkata:20260425T170000',
+        'DTEND;TZID=Asia/Kolkata:20260425T210000',
+        'SUMMARY:Anagha & Aibel Wedding',
+        'LOCATION:Rhythm Event of Galleria, Pantheeramkavu, Poothurmadam',
+        'END:VEVENT', 'END:VCALENDAR'
+      ].join('\r\n');
+      document.getElementById('icalLink').href =
+        'data:text/calendar;charset=utf8,' + encodeURIComponent(ics);
+    }
+  });
+
+  /* ── RSVP ── */
+  document.getElementById('rsvpForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name   = document.getElementById('fn').value.trim();
+    var guests = document.getElementById('fg').value;
+    var att    = document.getElementById('fa').value;
+    if (!name || !guests || !att) { alert('Please complete all fields.'); return; }
+    document.getElementById('rsvpWrap').style.display = 'none';
+    var conf = document.getElementById('rsvpConfirm');
+    conf.classList.add('show');
+    var guestNum = parseInt(guests, 10);
+    var guestPhrase = guestNum > 1 ? ' and ' + guestNum + ' guests.' : '.';
+    document.getElementById('confirmMsg').textContent = att === 'yes'
+      ? 'Thank you, ' + name + '. We look forward to celebrating with you' + guestPhrase
+      : 'Thank you, ' + name + '. You will be dearly missed, and your warm wishes mean everything to us.';
+  });
+
+  /* ── Ambient Music Toggle ── */
+  var musicBtn   = document.getElementById('musicBtn');
+  var musicBars  = document.getElementById('musicBars');
+  var musicLabel = document.getElementById('musicLabel');
+  var musicOn    = false;
+  var audio      = null;
+
+  musicBtn.addEventListener('click', function () {
+    if (!audio) {
+      /* 
+        Replace the src below with a royalty-free ambient/instrumental URL.
+        Suggested free sources: https://pixabay.com/music/ (search "wedding ambient")
+        Example placeholder: a silent mp3 until real audio is added.
+      */
+      audio = new Audio();
+      audio.loop = true;
+      audio.volume = 0.2;
+      // audio.src = 'YOUR_AMBIENT_MUSIC_URL.mp3';
+    }
+    musicOn = !musicOn;
+    if (musicOn) {
+      if (audio.src) audio.play().catch(function(){});
+      musicBars.classList.add('playing');
+      musicLabel.textContent = '♪ Music';
+    } else {
+      audio.pause();
+      musicBars.classList.remove('playing');
+      musicLabel.textContent = '♩ Music';
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
