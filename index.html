@@ -1130,14 +1130,27 @@
     var guests = document.getElementById('fg').value;
     var att    = document.getElementById('fa').value;
     if (!name || !guests || !att) { alert('Please complete all fields.'); return; }
-    document.getElementById('rsvpWrap').style.display = 'none';
-    var conf = document.getElementById('rsvpConfirm');
-    conf.classList.add('show');
-    var guestNum = parseInt(guests, 10);
-    var guestPhrase = guestNum > 1 ? ' and ' + guestNum + ' guests.' : '.';
-    document.getElementById('confirmMsg').textContent = att === 'yes'
-      ? 'Thank you, ' + name + '. We look forward to celebrating with you' + guestPhrase
-      : 'Thank you, ' + name + '. You will be dearly missed, and your warm wishes mean everything to us.';
+
+    var btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    fetch('https://script.google.com/macros/s/AKfycbzzs89t7rNRzhUPOK3Z73OvdH7cjcM32rZDGfjTU-g8dvtSNQ3JoJbP4zy4ycD993VC/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name, guests: guests, attending: att })
+    })
+    .catch(function () { /* network error — still show confirmation */ })
+    .finally(function () {
+      document.getElementById('rsvpWrap').style.display = 'none';
+      var conf = document.getElementById('rsvpConfirm');
+      conf.classList.add('show');
+      var guestNum = parseInt(guests, 10);
+      var guestPhrase = guestNum > 1 ? ' and ' + guestNum + ' guests.' : '.';
+      document.getElementById('confirmMsg').textContent = att === 'yes'
+        ? 'Thank you, ' + name + '. We look forward to celebrating with you' + guestPhrase
+        : 'Thank you, ' + name + '. You will be dearly missed, and your warm wishes mean everything to us.';
+    });
   });
 
 
