@@ -1135,12 +1135,17 @@
     btn.textContent = 'Sending…';
     btn.disabled = true;
 
-    fetch('https://script.google.com/macros/s/AKfycbzzs89t7rNRzhUPOK3Z73OvdH7cjcM32rZDGfjTU-g8dvtSNQ3JoJbP4zy4ycD993VC/exec', {
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('guests', guests);
+    formData.append('attending', att);
+
+    fetch('https://script.google.com/macros/s/AKfycbxsf_M4m-zuqCTROelt3hK0sQbUeGvK43v0Cl0Uog458oq6zYwVLLlf7H9RUqaecBjJNg/exec', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, guests: guests, attending: att })
+      mode: 'no-cors',
+      body: formData
     })
-    .catch(function () { /* network error — still show confirmation */ })
+    .catch(function () { /* silent fail — confirmation still shows */ })
     .finally(function () {
       document.getElementById('rsvpWrap').style.display = 'none';
       var conf = document.getElementById('rsvpConfirm');
