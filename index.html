@@ -27,12 +27,12 @@
       --bg:         #F4F1FB;
       --white:      #FDFCFF;
       --lav:        #B8A4E0;
-      --lav-mid:    #9278C8;
-      --lav-deep:   #5E45A0;
+      --lav-mid:    #7A5FB8;
+      --lav-deep:   #4E3490;
       --lav-line:   rgba(184,164,224,0.38);
-      --ink:        #28223A;
-      --ink-mid:    #6A6080;
-      --ink-soft:   #A098BC;
+      --ink:        #1E1830;
+      --ink-mid:    #4A4260;
+      --ink-soft:   #6B6088;
     }
 
     /* ─────────────────────────────────────────
@@ -143,15 +143,24 @@
       background: var(--lav); transform: rotate(45deg);
     }
 
-    /* scroll reveal */
+    /* scroll reveal — slower, smoother */
     .appear {
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1),
-                  transform 0.9s cubic-bezier(0.22,1,0.36,1);
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 1.2s cubic-bezier(0.16,1,0.3,1),
+                  transform 1.2s cubic-bezier(0.16,1,0.3,1);
     }
     .appear.in { opacity: 1; transform: none; }
-    .d1{transition-delay:.1s} .d2{transition-delay:.22s}
-    .d3{transition-delay:.35s} .d4{transition-delay:.5s}
+    .d1{transition-delay:.14s} .d2{transition-delay:.28s}
+    .d3{transition-delay:.44s} .d4{transition-delay:.62s}
+
+    /* section fade between sections */
+    section {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1),
+                  transform 1.1s cubic-bezier(0.16,1,0.3,1);
+    }
+    section.s-visible { opacity: 1; transform: none; }
+    #hero { opacity: 1 !important; transform: none !important; }
 
     /* ─────────────────────────────────────────
        HERO
@@ -165,7 +174,7 @@
       position: relative; overflow: hidden;
     }
 
-    /* animated gradient mesh background */
+    /* animated gradient mesh background — enhanced */
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
       background:
@@ -173,13 +182,15 @@
         radial-gradient(ellipse 60% 50% at 85% 70%, rgba(146,120,200,0.2) 0%, transparent 60%),
         radial-gradient(ellipse 50% 40% at 50% 10%, rgba(220,210,245,0.22) 0%, transparent 60%),
         var(--bg);
-      animation: gradShift 12s ease-in-out infinite alternate;
+      animation: gradShift 18s ease-in-out infinite alternate;
+      will-change: filter;
     }
     @keyframes gradShift {
-      0%   { filter: hue-rotate(0deg) brightness(1); }
-      33%  { filter: hue-rotate(8deg) brightness(1.02); }
-      66%  { filter: hue-rotate(-6deg) brightness(0.99); }
-      100% { filter: hue-rotate(4deg) brightness(1.01); }
+      0%   { filter: hue-rotate(0deg)  brightness(1)    saturate(1);   }
+      25%  { filter: hue-rotate(6deg)  brightness(1.02) saturate(1.05);}
+      50%  { filter: hue-rotate(-5deg) brightness(0.99) saturate(0.97);}
+      75%  { filter: hue-rotate(9deg)  brightness(1.01) saturate(1.03);}
+      100% { filter: hue-rotate(3deg)  brightness(1.01) saturate(1);   }
     }
 
     /* grain overlay */
@@ -211,13 +222,13 @@
     }
 
     /* hero stagger animations */
-    .hs0{opacity:0;animation:heroUp 1.1s 0.25s forwards}
-    .hs1{opacity:0;animation:heroUp 1.1s 0.5s forwards}
-    .hs2{opacity:0;animation:heroUp 1.1s 0.85s forwards}  /* amp: true micro delay */
-    .hs3{opacity:0;animation:heroUp 1.1s 1.1s forwards}
-    .hs4{opacity:0;animation:heroUp 1s 1.3s forwards}
-    .hs5{opacity:0;animation:heroUp 1s 1.5s forwards}
-    .hs6{opacity:0;animation:heroUp 1s 1.7s forwards}
+    .hs0{opacity:0;animation:heroUp 1.4s 0.3s  cubic-bezier(0.16,1,0.3,1) forwards}
+    .hs1{opacity:0;animation:heroUp 1.4s 0.55s cubic-bezier(0.16,1,0.3,1) forwards}
+    .hs2{opacity:0;animation:heroUp 1.4s 0.95s cubic-bezier(0.16,1,0.3,1) forwards}
+    .hs3{opacity:0;animation:heroUp 1.4s 1.2s  cubic-bezier(0.16,1,0.3,1) forwards}
+    .hs4{opacity:0;animation:heroUp 1.2s 1.45s cubic-bezier(0.16,1,0.3,1) forwards}
+    .hs5{opacity:0;animation:heroUp 1.2s 1.65s cubic-bezier(0.16,1,0.3,1) forwards}
+    .hs6{opacity:0;animation:heroUp 1.2s 1.85s cubic-bezier(0.16,1,0.3,1) forwards}
     @keyframes heroUp {
       from{opacity:0;transform:translateY(22px)}
       to  {opacity:1;transform:translateY(0)}
@@ -271,9 +282,18 @@
       background: var(--lav); transform: rotate(45deg);
     }
 
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.9rem, 2.2vw, 1.15rem);
+      font-weight: 300; font-style: italic;
+      letter-spacing: 0.18em;
+      color: var(--lav-deep);
+      margin-top: 1rem;
+    }
+
     .hero-sub {
-      font-size: clamp(0.78rem, 2vw, 0.92rem);
-      letter-spacing: 0.12em; color: var(--ink-mid);
+      font-size: clamp(0.8rem, 2vw, 0.92rem);
+      letter-spacing: 0.12em; color: var(--ink);
       line-height: 2; margin-top: 1.8rem; max-width: 400px;
     }
 
@@ -304,7 +324,18 @@
       color: var(--ink-soft); text-transform: uppercase;
     }
 
-    /* scroll cue */
+    /* parallax layers */
+    .hero-watermark { will-change: transform; }
+    .hero-bg        { will-change: transform, filter; }
+
+    /* improve text readability across sections */
+    .eyebrow        { color: var(--lav-deep); }
+    .s-title        { color: var(--ink); }
+    .venue-sub      { color: var(--ink-mid); font-size: 0.85rem; }
+    .d-label        { color: var(--lav-deep); }
+    .cd-lbl         { color: var(--lav-deep); }
+    .m-lbl          { color: var(--lav-deep); }
+    .hero-label     { color: var(--lav-deep); }
     .scroll-cue {
       position: absolute; bottom: 2rem; z-index: 2;
       display: flex; flex-direction: column; align-items: center; gap: 0.38rem;
@@ -413,7 +444,7 @@
     .cd-sep {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.8rem,4vw,2.8rem);
-      color: var(--lav-line); padding-top: 0.1em; font-weight: 300;
+      color: var(--lav-mid); padding-top: 0.1em; font-weight: 300;
     }
 
     /* ─────────────────────────────────────────
@@ -550,7 +581,7 @@
     }
     .ft-date {
       font-size: 0.6rem; letter-spacing: 0.3em;
-      text-transform: uppercase; color: rgba(255,255,255,0.22);
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
     }
     .ft-actions {
       display: flex; gap: 0.65rem; justify-content: center; flex-wrap: wrap; margin-top: 1.6rem;
@@ -558,17 +589,17 @@
     .ft-btn {
       display: inline-flex; align-items: center; gap: 0.4rem;
       background: transparent;
-      border: 1px solid rgba(184,164,224,0.22);
-      color: rgba(184,164,224,0.65);
+      border: 1px solid rgba(184,164,224,0.4);
+      color: rgba(255,255,255,0.65);
       font-family: 'Jost', sans-serif;
       font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
       font-weight: 300; padding: 0.5rem 1.2rem; cursor: pointer;
       transition: background 0.28s, border-color 0.28s, color 0.28s;
     }
-    .ft-btn:hover { background: rgba(184,164,224,0.1); border-color: rgba(184,164,224,0.5); color: var(--lav); }
+    .ft-btn:hover { background: rgba(184,164,224,0.15); border-color: rgba(184,164,224,0.7); color: var(--lav); }
     .ft-copy {
       font-size: 0.55rem; letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.12); margin-top: 2rem;
+      color: rgba(255,255,255,0.3); margin-top: 2rem;
     }
 
     /* ─────────────────────────────────────────
@@ -580,7 +611,7 @@
     }
     #musicBars span {
       display: block; width: 3px; border-radius: 1px;
-      background: rgba(184,164,224,0.65);
+      background: rgba(255,255,255,0.55);
       transform-origin: bottom;
     }
     #musicBars.playing span:nth-child(1){ animation: bar 0.9s 0.0s ease-in-out infinite alternate; }
@@ -635,6 +666,8 @@
       <span class="h-gem"></span>
       <span class="h-div-line"></span>
     </div>
+
+    <p class="hero-tagline hs4">Two souls, one beginning.</p>
 
     <p class="hero-sub hs5">
       Together with their families<br>
@@ -828,23 +861,43 @@
 <script>
 (function () {
 
-  /* ── Preloader — give it a proper 2.4s breath ── */
+  /* ── Preloader + auto-start music after dismissal ── */
+  var audio = new Audio('music.mp3'); /* ← put your file name here */
+  audio.loop   = true;
+  audio.volume = 0;
+
   window.addEventListener('load', function () {
     document.getElementById('loader').classList.add('gone');
+    /* fade music in gently after preloader */
+    setTimeout(function () {
+      audio.play().then(function () {
+        var vol = 0;
+        var fade = setInterval(function () {
+          vol = Math.min(vol + 0.01, 0.18);
+          audio.volume = vol;
+          if (vol >= 0.18) clearInterval(fade);
+        }, 80);
+        document.getElementById('musicBars').classList.add('playing');
+        document.getElementById('musicLabel').textContent = '♪ Music';
+        musicOn = true;
+      }).catch(function () {
+        /* autoplay blocked — user must click manually, that's fine */
+      });
+    }, 1000);
   });
 
   /* ── Custom Cursor (pointer devices only) ── */
   if (window.matchMedia('(pointer: fine)').matches) {
     var dot  = document.getElementById('cursor-dot');
     var glow = document.getElementById('cursor-glow');
-    var hero = document.getElementById('hero');
+    var heroEl = document.getElementById('hero');
     var mx = 0, my = 0, gx = 0, gy = 0;
 
     document.addEventListener('mousemove', function (e) {
       mx = e.clientX; my = e.clientY;
       dot.style.left = mx + 'px';
       dot.style.top  = my + 'px';
-      var r = hero.getBoundingClientRect();
+      var r = heroEl.getBoundingClientRect();
       if (e.clientY >= r.top && e.clientY <= r.bottom) {
         document.body.classList.add('in-hero');
       } else {
@@ -853,21 +906,41 @@
     });
 
     (function animGlow() {
-      gx += (mx - gx) * 0.06;
-      gy += (my - gy) * 0.06;
+      gx += (mx - gx) * 0.055;
+      gy += (my - gy) * 0.055;
       glow.style.left = gx + 'px';
       glow.style.top  = gy + 'px';
       requestAnimationFrame(animGlow);
     })();
   }
 
-  /* ── Scroll Reveal ── */
+  /* ── Section fade-in observer ── */
+  var sectionIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('s-visible');
+        sectionIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('section').forEach(function (s) { sectionIO.observe(s); });
+
+  /* ── Element scroll reveal ── */
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.appear').forEach(function (el) { io.observe(el); });
+
+  /* ── Parallax — hero watermark + bg on scroll ── */
+  var heroBg   = document.querySelector('.hero-bg');
+  var heroWm   = document.querySelector('.hero-watermark');
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY;
+    if (heroBg) heroBg.style.transform  = 'translateY(' + (y * 0.25) + 'px)';
+    if (heroWm) heroWm.style.transform  = 'translateY(' + (y * 0.12) + 'px)';
+  }, { passive: true });
 
   /* ── Countdown — 25 Apr 2026 17:00 IST ── */
   var target = new Date('2026-04-25T17:00:00+05:30').getTime();
@@ -924,32 +997,31 @@
       : 'Thank you, ' + name + '. You will be dearly missed, and your warm wishes mean everything to us.';
   });
 
-  /* ── Ambient Music Toggle ── */
+  /* ── Music Toggle ── */
   var musicBtn   = document.getElementById('musicBtn');
   var musicBars  = document.getElementById('musicBars');
   var musicLabel = document.getElementById('musicLabel');
   var musicOn    = false;
-  var audio      = null;
 
   musicBtn.addEventListener('click', function () {
-    if (!audio) {
-      /* 
-        Replace the src below with a royalty-free ambient/instrumental URL.
-        Suggested free sources: https://pixabay.com/music/ (search "wedding ambient")
-        Example placeholder: a silent mp3 until real audio is added.
-      */
-      audio = new Audio();
-      audio.loop = true;
-      audio.volume = 0.2;
-      // audio.src = 'YOUR_AMBIENT_MUSIC_URL.mp3';
-    }
     musicOn = !musicOn;
     if (musicOn) {
-      if (audio.src) audio.play().catch(function(){});
+      audio.play().catch(function(){});
+      var vol = audio.volume;
+      var fadeIn = setInterval(function () {
+        vol = Math.min(vol + 0.015, 0.18);
+        audio.volume = vol;
+        if (vol >= 0.18) clearInterval(fadeIn);
+      }, 80);
       musicBars.classList.add('playing');
       musicLabel.textContent = '♪ Music';
     } else {
-      audio.pause();
+      var vol = audio.volume;
+      var fadeOut = setInterval(function () {
+        vol = Math.max(vol - 0.015, 0);
+        audio.volume = vol;
+        if (vol <= 0) { audio.pause(); clearInterval(fadeOut); }
+      }, 80);
       musicBars.classList.remove('playing');
       musicLabel.textContent = '♩ Music';
     }
