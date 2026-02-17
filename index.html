@@ -632,27 +632,73 @@
       z-index: 1000;
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.55rem 1.1rem;
-      background: rgba(253,252,255,0.72);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--lav-line);
+      background: rgba(253,252,255,0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-radius: 2rem;
       cursor: pointer;
       opacity: 0;
       transform: translateY(8px);
-      transition: opacity 0.8s ease, transform 0.8s ease,
-                  background 0.3s, border-color 0.3s;
+      transition: opacity 0.8s ease, transform 0.8s ease, background 0.3s;
       pointer-events: none;
+      /* border drawn by pseudo element for glow trail */
+      isolation: isolate;
     }
     #musicPill.visible {
       opacity: 1; transform: translateY(0); pointer-events: auto;
     }
     #musicPill.playing {
-      background: rgba(184,164,224,0.18);
-      border-color: rgba(184,164,224,0.55);
+      background: rgba(240,235,255,0.88);
     }
+
+    /* neon glow trail border */
+    #musicPill::before {
+      content: '';
+      position: absolute; inset: -1.5px;
+      border-radius: inherit;
+      background: conic-gradient(
+        from var(--angle, 0deg),
+        transparent 0deg,
+        rgba(160,100,255,0.9) 60deg,
+        rgba(200,160,255,0.6) 90deg,
+        transparent 120deg
+      );
+      animation: rotatePill 3s linear infinite;
+      z-index: -1;
+    }
+    /* inner mask so gradient doesn't bleed inside */
+    #musicPill::after {
+      content: '';
+      position: absolute; inset: 1px;
+      border-radius: calc(2rem - 1px);
+      background: rgba(253,252,255,0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: -1;
+      transition: background 0.3s;
+    }
+    #musicPill.playing::after {
+      background: rgba(240,235,255,0.88);
+    }
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    @keyframes rotatePill {
+      to { --angle: 360deg; }
+    }
+    /* outer ambient glow bloom */
+    #musicPill.visible {
+      filter: drop-shadow(0 0 8px rgba(160,100,255,0.25));
+    }
+    #musicPill.visible.playing {
+      filter: drop-shadow(0 0 14px rgba(160,100,255,0.45));
+    }
+
     .pill-bars {
       display: inline-flex; gap: 2px; align-items: flex-end; height: 12px;
+      position: relative; z-index: 1;
     }
     .pill-bars span {
       display: block; width: 2px; border-radius: 1px;
@@ -663,61 +709,26 @@
     .pill-bars span:nth-child(2) { height: 8px; }
     .pill-bars span:nth-child(3) { height: 5px; }
     .pill-bars span:nth-child(4) { height: 10px; }
-    #musicPill.playing .pill-bars span:nth-child(1){ animation: pillBar 0.9s 0.0s ease-in-out infinite alternate; }
-    #musicPill.playing .pill-bars span:nth-child(2){ animation: pillBar 0.9s 0.2s ease-in-out infinite alternate; }
+    #musicPill.playing .pill-bars span:nth-child(1){ animation: pillBar 0.9s 0.0s  ease-in-out infinite alternate; }
+    #musicPill.playing .pill-bars span:nth-child(2){ animation: pillBar 0.9s 0.2s  ease-in-out infinite alternate; }
     #musicPill.playing .pill-bars span:nth-child(3){ animation: pillBar 0.9s 0.35s ease-in-out infinite alternate; }
-    #musicPill.playing .pill-bars span:nth-child(4){ animation: pillBar 0.9s 0.1s ease-in-out infinite alternate; }
+    #musicPill.playing .pill-bars span:nth-child(4){ animation: pillBar 0.9s 0.1s  ease-in-out infinite alternate; }
     @keyframes pillBar { from{height:3px} to{height:12px} }
     .pill-label {
       font-family: 'Jost', sans-serif;
       font-size: 0.58rem; letter-spacing: 0.2em;
       text-transform: uppercase; font-weight: 300;
       color: var(--lav-deep);
+      position: relative; z-index: 1;
     }
     @media(max-width:480px){
       #musicPill { bottom: 1.2rem; left: 1.2rem; padding: 0.5rem 0.9rem; }
     }
 
-    /* hero sound hint */
-    #heroSoundHint {
-      position: absolute;
-      bottom: 5.8rem; left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      cursor: pointer; border: none; background: none; padding: 0.2rem 0.5rem;
-      opacity: 0;
-      animation: heroUp 1s 2.4s cubic-bezier(0.16,1,0.3,1) forwards;
-      transition: opacity 0.5s ease;
-      white-space: nowrap;
-    }
-    #heroSoundHint.hide { opacity: 0 !important; pointer-events: none; }
-    .hint-bars {
-      display: inline-flex; gap: 2px; align-items: flex-end; height: 10px;
-    }
-    .hint-bars span {
-      display: block; width: 2px; border-radius: 1px;
-      background: var(--ink-soft); transform-origin: bottom;
-    }
-    .hint-bars span:nth-child(1){ height: 3px; }
-    .hint-bars span:nth-child(2){ height: 7px; }
-    .hint-bars span:nth-child(3){ height: 4px; }
-    .hint-bars span:nth-child(4){ height: 9px; }
-    #heroSoundHint.playing .hint-bars span:nth-child(1){ animation: pillBar 1s 0.0s  ease-in-out infinite alternate; }
-    #heroSoundHint.playing .hint-bars span:nth-child(2){ animation: pillBar 1s 0.2s  ease-in-out infinite alternate; }
-    #heroSoundHint.playing .hint-bars span:nth-child(3){ animation: pillBar 1s 0.35s ease-in-out infinite alternate; }
-    #heroSoundHint.playing .hint-bars span:nth-child(4){ animation: pillBar 1s 0.1s  ease-in-out infinite alternate; }
-    .hint-text {
-      font-family: 'Jost', sans-serif;
-      font-size: 0.5rem; letter-spacing: 0.3em;
-      text-transform: uppercase; font-weight: 300;
-      color: var(--ink-soft);
-    }
-
     @media print {
       #loader, #cursor-dot, #cursor-glow, .scroll-cue,
       .btn-row, .rsvp-btns, footer, #countdown,
-      #musicPill, #heroSoundHint { display:none !important; }
+      #musicPill { display:none !important; }
       body { background: white; cursor: auto; }
       section { page-break-inside: avoid; }
     }
@@ -784,13 +795,6 @@
       Rhythm Event of Galleria · Pantheeramkavu
     </p>
   </div>
-
-  <button id="heroSoundHint" aria-label="Play ambient music">
-    <span class="hint-bars">
-      <span></span><span></span><span></span><span></span>
-    </span>
-    <span class="hint-text">sound on</span>
-  </button>
 
   <div class="scroll-cue" aria-hidden="true">
     <span>Scroll</span>
@@ -968,7 +972,9 @@
   /* ── Preloader ── */
   window.addEventListener('load', function () {
     document.getElementById('loader').classList.add('gone');
-    /* pill stays hidden until hero hint is used OR user scrolls past hero */
+    setTimeout(function () {
+      document.getElementById('musicPill').classList.add('visible');
+    }, 1400);
   });
 
   /* ── Music setup ── */
@@ -991,57 +997,24 @@
     }, duration / steps);
   }
 
-  function showPill() {
-    document.getElementById('musicPill').classList.add('visible');
-  }
-
   function setMusicState(on) {
     musicOn = on;
-    var pill   = document.getElementById('musicPill');
-    var hint   = document.getElementById('heroSoundHint');
-    var bars   = document.getElementById('musicBars');
-    var label  = document.getElementById('musicLabel');
+    var pill  = document.getElementById('musicPill');
+    var bars  = document.getElementById('musicBars');
+    var label = document.getElementById('musicLabel');
     if (on) {
       audio.play().catch(function(){});
       fadeVolume(0.18, 1200);
       pill.classList.add('playing');
-      if (hint) hint.classList.add('playing');
       if (bars)  bars.classList.add('playing');
       if (label) label.textContent = '♪ Music';
     } else {
       fadeVolume(0, 800);
       pill.classList.remove('playing');
-      if (hint) hint.classList.remove('playing');
       if (bars)  bars.classList.remove('playing');
       if (label) label.textContent = '♩ Music';
     }
   }
-
-  /* hero hint — click starts music, hint fades out, pill appears */
-  var hint = document.getElementById('heroSoundHint');
-  if (hint) {
-    hint.addEventListener('click', function () {
-      if (!musicOn) {
-        setMusicState(true);
-        /* fade hint out after a beat */
-        setTimeout(function () {
-          hint.classList.add('hide');
-          showPill();
-        }, 600);
-      }
-    });
-  }
-
-  /* pill appears automatically when user scrolls past hero */
-  var heroSection = document.getElementById('hero');
-  var pillShown = false;
-  window.addEventListener('scroll', function () {
-    if (!pillShown && window.scrollY > heroSection.offsetHeight * 0.7) {
-      pillShown = true;
-      showPill();
-      if (hint) hint.classList.add('hide');
-    }
-  }, { passive: true });
 
   /* pill click */
   var pill = document.getElementById('musicPill');
