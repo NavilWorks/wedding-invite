@@ -256,6 +256,27 @@
       transition: letter-spacing 0.8s ease;
     }
 
+    .family-details {
+      font-family: 'Jost', sans-serif;
+      font-size: clamp(0.65rem, 1.6vw, 0.78rem);
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--ink-mid);
+      letter-spacing: 0.04em;
+      margin-top: 0.7rem;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .family-details .relation {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: var(--lav-deep);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
     .hero-amp {
       display: block;
       font-family: 'Cormorant Garamond', serif;
@@ -725,10 +746,88 @@
       #musicPill { bottom: 1.2rem; left: 1.2rem; padding: 0.5rem 0.9rem; }
     }
 
+    /* ─────────────────────────────────────────
+       GUEST MESSAGES
+    ───────────────────────────────────────── */
+    #guestMessages {
+      background: var(--white);
+      padding: clamp(4rem,9vw,7rem) clamp(1.5rem,5vw,4rem);
+      text-align: center;
+    }
+    .messages-grid {
+      max-width: 920px; margin: 2.6rem auto 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px,100%), 1fr));
+      gap: 1.5rem;
+    }
+    .msg-card {
+      background: rgba(253,252,255,0.8);
+      border: 1px solid var(--lav-line);
+      border-radius: 0.5rem;
+      padding: 1.8rem 1.5rem;
+      text-align: left;
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      animation: msgFadeIn 0.6s forwards;
+    }
+    .msg-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(94,69,160,0.12);
+    }
+    @keyframes msgFadeIn { to { opacity: 1; } }
+    .msg-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.95rem,2.2vw,1.1rem);
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .msg-text::before { content: '\201C'; opacity: 0.35; }
+    .msg-text::after  { content: '\201D'; opacity: 0.35; }
+    .msg-author {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--lav-deep);
+      font-weight: 400;
+    }
+    .msg-loading {
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      font-style: italic;
+      padding: 2rem;
+    }
+
+    /* ─────────────────────────────────────────
+       FLOWER PETAL TRAIL (mobile touch)
+    ───────────────────────────────────────── */
+    .petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9997;
+      animation: petalFall 2.5s ease-out forwards;
+      will-change: transform, opacity;
+    }
+    .petal::before {
+      content: '';
+      display: block;
+      width: 8px; height: 12px;
+      border-radius: 50% 0 50% 0;
+      transform: rotate(45deg);
+    }
+    .petal.lav::before { background: rgba(184,164,224,0.7); }
+    .petal.white::before { background: rgba(253,252,255,0.85); }
+    @keyframes petalFall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(120px) rotate(360deg); opacity: 0; }
+    }
+
     @media print {
       #loader, #cursor-dot, #cursor-glow, .scroll-cue,
       .btn-row, .rsvp-btns, footer, #countdown,
       #musicPill { display:none !important; }
+      .petal { display: none !important; }
       body { background: white; cursor: auto; }
       section { page-break-inside: avoid; }
     }
@@ -753,12 +852,26 @@
   <div class="hero-watermark" aria-hidden="true"><span>&amp;</span></div>
 
   <div class="hero-inner">
-    <p class="hero-label hs0">Wedding Invitation</p>
+    <p class="hero-label hs0">Reception Invitation</p>
 
     <h1 class="hero-names">
       <span class="name-line hs1">Anagha</span>
+      <div class="family-details hs1">
+        <span class="relation">Daughter of</span>
+        Santhosh Thayyil & Jayasree Chengote<br>
+        Narayaneeyam, Thayyil House, Kacherikkunnu P.O.<br>
+        Pokkunnu, Calicut
+      </div>
+      
       <span class="hero-amp hs2">&amp;</span>
+      
       <span class="name-line hs3">Aibel</span>
+      <div class="family-details hs3">
+        <span class="relation">Son of</span>
+        C. A. Benny & Sini Benny<br>
+        Chakkalakkal House, Malapallipuram P.O.<br>
+        Thrissur
+      </div>
     </h1>
 
     <div class="h-div hs4">
@@ -767,11 +880,11 @@
       <span class="h-div-line"></span>
     </div>
 
-    <p class="hero-tagline hs4">Two souls, one beginning.</p>
+    <p class="hero-tagline hs4">Celebrating love, family, and new beginnings.</p>
 
     <p class="hero-sub hs5">
       Together with their families<br>
-      invite you to celebrate their wedding
+      invite you to celebrate their reception
     </p>
 
     <div class="hero-meta hs6">
@@ -792,7 +905,7 @@
     </div>
 
     <p class="hero-venue-line hs6">
-      Rhythm Event of Galleria · Pantheeramkavu
+      Rhythm Event of Galleria · Calicut
     </p>
   </div>
 
@@ -838,7 +951,7 @@
 <!-- ══════════════ COUNTDOWN ══════════════ -->
 <section id="countdown">
   <span class="eyebrow appear">Time Remaining</span>
-  <h2 class="s-title appear d1">Days Until We Celebrate</h2>
+  <h2 class="s-title appear d1">Days Until the Reception</h2>
   <div class="gem-rule appear d2"><span></span></div>
 
   <div class="cd-row appear d3">
@@ -870,7 +983,9 @@
   <h2 class="s-title appear d1">The Venue</h2>
   <div class="gem-rule appear d2"><span></span></div>
   <p class="venue-sub appear d2">
-    Rhythm Event of Galleria · Pantheeramkavu, Poothurmadam, Kerala
+    Rhythm Event of Galleria<br>
+    Pantheeramkavu, Poothurmadam<br>
+    Calicut, Kerala
   </p>
 
   <div class="map-wrap appear d3">
@@ -923,6 +1038,10 @@
           <option value="no">Regretfully Decline</option>
         </select>
       </div>
+      <div class="f-field">
+        <label for="fm">Message for the Couple <span style="font-size:0.5rem;text-transform:none;letter-spacing:0.1em;opacity:0.6;">(optional)</span></label>
+        <input type="text" id="fm" placeholder="Your blessings or wishes" autocomplete="off" maxlength="200" />
+      </div>
       <div class="rsvp-btns">
         <button type="submit" class="btn btn-solid">Confirm Attendance</button>
       </div>
@@ -937,6 +1056,17 @@
 </section>
 
 
+
+<!-- ══════════════ GUEST MESSAGES ══════════════ -->
+<section id="guestMessages">
+  <span class="eyebrow appear">Words of Love</span>
+  <h2 class="s-title appear d1">Blessings from Our Guests</h2>
+  <div class="gem-rule appear d2"><span></span></div>
+  
+  <div id="messagesGrid" class="messages-grid appear d2">
+    <div class="msg-loading">Loading messages...</div>
+  </div>
+</section>
 
 <!-- ══════════════ FOOTER ══════════════ -->
 <footer>
@@ -1126,9 +1256,10 @@
   /* ── RSVP ── */
   document.getElementById('rsvpForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var name   = document.getElementById('fn').value.trim();
-    var guests = document.getElementById('fg').value;
-    var att    = document.getElementById('fa').value;
+    var name    = document.getElementById('fn').value.trim();
+    var guests  = document.getElementById('fg').value;
+    var att     = document.getElementById('fa').value;
+    var message = document.getElementById('fm').value.trim();
     if (!name || !guests || !att) { alert('Please complete all fields.'); return; }
 
     var btn = e.target.querySelector('button[type="submit"]');
@@ -1139,6 +1270,7 @@
     formData.append('name', name);
     formData.append('guests', guests);
     formData.append('attending', att);
+    formData.append('message', message || '');
 
     fetch('https://script.google.com/macros/s/AKfycbxsf_M4m-zuqCTROelt3hK0sQbUeGvK43v0Cl0Uog458oq6zYwVLLlf7H9RUqaecBjJNg/exec', {
       method: 'POST',
@@ -1155,10 +1287,67 @@
       document.getElementById('confirmMsg').textContent = att === 'yes'
         ? 'Thank you, ' + name + '. We look forward to celebrating with you' + guestPhrase
         : 'Thank you, ' + name + '. You will be dearly missed, and your warm wishes mean everything to us.';
+      
+      /* reload messages after submit */
+      setTimeout(loadMessages, 2000);
     });
   });
 
+  /* ── Flower Petal Trail (mobile touch only) ── */
+  var isMobile = 'ontouchstart' in window;
+  if (isMobile) {
+    var petalCount = 0;
+    var maxPetals = 50;
+    document.addEventListener('touchmove', function (e) {
+      if (petalCount >= maxPetals) return;
+      var touch = e.touches[0];
+      createPetal(touch.clientX, touch.clientY);
+      petalCount++;
+      setTimeout(function () { petalCount--; }, 2500);
+    }, { passive: true });
+  }
 
+  function createPetal(x, y) {
+    var petal = document.createElement('div');
+    petal.className = 'petal ' + (Math.random() > 0.5 ? 'lav' : 'white');
+    petal.style.left = x + 'px';
+    petal.style.top  = y + 'px';
+    document.body.appendChild(petal);
+    setTimeout(function () { petal.remove(); }, 2500);
+  }
+
+  /* ── Load Guest Messages from Sheet ── */
+  function loadMessages() {
+    var grid = document.getElementById('messagesGrid');
+    fetch('https://script.google.com/macros/s/AKfycbxsf_M4m-zuqCTROelt3hK0sQbUeGvK43v0Cl0Uog458oq6zYwVLLlf7H9RUqaecBjJNg/exec')
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (!data.messages || data.messages.length === 0) {
+          grid.innerHTML = '<div class="msg-loading">No messages yet. Be the first to share your blessings!</div>';
+          return;
+        }
+        grid.innerHTML = '';
+        data.messages.forEach(function (msg) {
+          if (!msg.message) return;
+          var card = document.createElement('div');
+          card.className = 'msg-card';
+          card.innerHTML = 
+            '<div class="msg-text">' + escapeHtml(msg.message) + '</div>' +
+            '<div class="msg-author">— ' + escapeHtml(msg.name) + '</div>';
+          grid.appendChild(card);
+        });
+      })
+      .catch(function () {
+        grid.innerHTML = '<div class="msg-loading">Messages will appear here soon.</div>';
+      });
+  }
+
+  function escapeHtml(text) {
+    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+  }
+
+  loadMessages();
 
 })();
 </script>
